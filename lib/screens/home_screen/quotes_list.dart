@@ -3,6 +3,7 @@ import 'package:animebook/models/anime_quote_model.dart';
 import 'package:animebook/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class QuotesList extends StatefulWidget {
   const QuotesList({Key? key}) : super(key: key);
@@ -95,12 +96,20 @@ class QuoteCard extends StatelessWidget {
           Row(
             children: [
               Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text("~ ${animeQuote?.character}"),
-                  Text("${animeQuote?.anime}")
-                ],
+              Container(
+                width: 220,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text("~ ${animeQuote?.character}"),
+                    Text(
+                      "${animeQuote?.anime}",
+                      textAlign: TextAlign.right,
+                      softWrap: true,
+                      maxLines: 2,
+                    )
+                  ],
+                ),
               ),
             ],
           ),
@@ -113,11 +122,18 @@ class QuoteCard extends StatelessWidget {
 class BottomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: SizedBox(
-        height: 24,
-        width: 24,
-        child: CircularProgressIndicator(strokeWidth: 1.5),
+    return Shimmer.fromColors(
+      baseColor: Colors.grey,
+      highlightColor: Colors.white,
+      child: Container(
+        height: 80,
+        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).accentColor,
+          borderRadius: Global.borderRadius,
+        ),
+        child: Container(),
       ),
     );
   }
