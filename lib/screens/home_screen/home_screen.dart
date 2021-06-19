@@ -23,25 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          BlocProvider<QuotesBloc>(
-            create: (context) => QuotesBloc(QuotesApi()),
-            child: BlocBuilder<QuotesBloc, QuotesState>(
-              builder: (cotext, state) {
-                if (state is LoadQuotes) {
-                  return CircularProgressIndicator();
-                }
-                if (state is QuotesLoaded) {
-                  return QuotesList(animeQuotes: state.animeQuotes);
-                }
-                if (state is QuotesEventFailed) {
-                  return Center(
-                    child: Text("Error Occured -- ${state.errorMessage}"),
-                  );
-                }
-                return CircularProgressIndicator();
-              },
-            ),
-          ),
+          QuotesList(),
         ],
       ),
     );

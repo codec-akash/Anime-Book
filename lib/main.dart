@@ -1,5 +1,7 @@
+import 'package:animebook/bloc/quotes_bloc.dart';
 import 'package:animebook/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +18,10 @@ class MyApp extends StatelessWidget {
         backgroundColor: Color(0xff202531),
         accentColor: Color(0xff2F353A),
       ),
-      home: HomeScreen(),
+      home: BlocProvider<QuotesBloc>(
+        create: (context) => QuotesBloc(),
+        child: HomeScreen(),
+      ),
     );
   }
 }

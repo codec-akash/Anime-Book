@@ -1,24 +1,53 @@
+import 'package:animebook/bloc/quotes_bloc.dart';
 import 'package:animebook/models/anime_quote_model.dart';
 import 'package:animebook/utils/global.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QuotesList extends StatefulWidget {
-  final List<AnimeQuotes>? animeQuotes;
-  const QuotesList({Key? key, this.animeQuotes}) : super(key: key);
+  const QuotesList({Key? key}) : super(key: key);
 
   @override
   _QuotesListState createState() => _QuotesListState();
 }
 
 class _QuotesListState extends State<QuotesList> {
+  ScrollController _scrollController = ScrollController();
+  QuotesBloc quotesBloc = QuotesBloc();
+
+  @override
+  void initState() {
+    quotesBloc = BlocProvider.of<QuotesBloc>(context);
+    quotesBloc.add(LoadQuotes());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-        itemCount: widget.animeQuotes?.length,
-        itemBuilder: (context, index) => QuoteCard(
-          animeQuote: widget.animeQuotes![index],
-        ),
+      child: BlocBuilder<QuotesBloc, QuotesState>(
+        builder: (cotext, state) {
+          if (state is QuotesLoading) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (state is QuotesLoaded) {
+            return ListView.builder(
+                controller: _scrollController,
+                itemCount: state.animeQuotes.length,
+                itemBuilder: (context, index) {
+                  return QuoteCard(
+                    animeQuote: state.animeQuotes[index],
+                  );
+                });
+          }
+          if (state is QuotesEventFailed) {
+            return Center(
+              child: Text("Error Occured -- ${state.errorMessage}"),
+            );
+          }
+          print("State - $state");
+          return CircularProgressIndicator();
+        },
       ),
     );
   }
