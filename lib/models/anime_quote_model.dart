@@ -1,4 +1,6 @@
-class AnimeQuotes {
+import 'package:equatable/equatable.dart';
+
+class AnimeQuotes extends Equatable {
   String? anime;
   String? character;
   String? quote;
@@ -18,4 +20,8 @@ class AnimeQuotes {
     data['quote'] = this.quote;
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [anime, character, quote];
 }

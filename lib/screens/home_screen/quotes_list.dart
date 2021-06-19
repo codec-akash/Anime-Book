@@ -12,14 +12,14 @@ class QuotesList extends StatefulWidget {
 }
 
 class _QuotesListState extends State<QuotesList> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   QuotesBloc quotesBloc = QuotesBloc();
 
   @override
   void initState() {
-    quotesBloc = BlocProvider.of<QuotesBloc>(context);
-    quotesBloc.add(LoadQuotes());
     super.initState();
+    quotesBloc = context.read<QuotesBloc>();
+    _scrollController.addListener(_onScroll);
   }
 
   @override
@@ -27,29 +27,49 @@ class _QuotesListState extends State<QuotesList> {
     return Expanded(
       child: BlocBuilder<QuotesBloc, QuotesState>(
         builder: (cotext, state) {
-          if (state is QuotesLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (state is QuotesLoaded) {
-            return ListView.builder(
+          switch (state.quoteStatus) {
+            case QuoteStatus.failure:
+              return Center(
+                child: Text("Failed to Load DAta"),
+              );
+            case QuoteStatus.success:
+              if (state.animeQuotes.isEmpty) {
+                return const Center(child: Text('no Quotes'));
+              }
+              return ListView.builder(
                 controller: _scrollController,
-                itemCount: state.animeQuotes.length,
+                itemCount: state.hasReachedMax
+                    ? state.animeQuotes.length
+                    : state.animeQuotes.length + 1,
                 itemBuilder: (context, index) {
-                  return QuoteCard(
-                    animeQuote: state.animeQuotes[index],
-                  );
-                });
+                  return index >= state.animeQuotes.length
+                      ? BottomLoader()
+                      : QuoteCard(animeQuote: state.animeQuotes[index]);
+                },
+              );
+            default:
+              return const Center(child: CircularProgressIndicator());
           }
-          if (state is QuotesEventFailed) {
-            return Center(
-              child: Text("Error Occured -- ${state.errorMessage}"),
-            );
-          }
-          print("State - $state");
-          return CircularProgressIndicator();
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) quotesBloc.add(LoadQuotes());
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 }
 
@@ -85,6 +105,19 @@ class QuoteCard extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class BottomLoader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: SizedBox(
+        height: 24,
+        width: 24,
+        child: CircularProgressIndicator(strokeWidth: 1.5),
       ),
     );
   }
