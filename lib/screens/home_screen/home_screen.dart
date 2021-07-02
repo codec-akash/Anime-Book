@@ -21,17 +21,15 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         title: Text("Anime Quotes"),
       ),
-      body: Column(
-        children: [
-          QuotesList(),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => AnimeList()));
-            },
-            child: Text("Anime List"),
-          ),
-        ],
+      body: Container(
+        child: QuotesList(),
+        // ElevatedButton(
+        //   onPressed: () {
+        //     Navigator.of(context)
+        //         .push(MaterialPageRoute(builder: (context) => AnimeList()));
+        //   },
+        //   child: Text("Anime List"),
+        // ),
       ),
     );
   }

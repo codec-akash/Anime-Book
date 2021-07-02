@@ -1,4 +1,5 @@
 import 'package:animebook/bloc/quotes_bloc.dart';
+import 'package:animebook/models/anime_quote_model.dart';
 import 'package:animebook/screens/anime_list/anime_quote_list.dart';
 import 'package:animebook/utils/global.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,16 @@ class AnimeList extends StatefulWidget {
 
 class _AnimeListState extends State<AnimeList> {
   QuotesBloc _quotesBloc = QuotesBloc();
+  List<String> searchableAnime = [];
+
+  void searchFn(value, List<String> animeQuotes) {
+    setState(() {
+      searchableAnime = animeQuotes
+          .where((element) => element.toLowerCase().contains(value))
+          .toList();
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -53,11 +64,35 @@ class _AnimeListState extends State<AnimeList> {
             }
             if (state is AnimeListLoaded) {
               print("Loased");
-              return ListView.builder(
-                itemCount: state.animeList.length,
-                itemBuilder: (context, index) {
-                  return AnimeListCard(animeName: "${state.animeList[index]}");
-                },
+              return Column(
+                children: [
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'Search bar',
+                      ),
+                      onChanged: (value) {
+                        searchFn(value, state.animeList);
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: searchableAnime.isEmpty
+                          ? state.animeList.length
+                          : searchableAnime.length,
+                      itemBuilder: (context, index) {
+                        return searchableAnime.length > 0
+                            ? AnimeListCard(
+                                animeName: "${searchableAnime[index]}")
+                            : AnimeListCard(
+                                animeName: "${state.animeList[index]}");
+                      },
+                    ),
+                  ),
+                ],
               );
             }
             return Center(

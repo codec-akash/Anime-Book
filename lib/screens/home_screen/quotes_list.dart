@@ -1,5 +1,6 @@
 import 'package:animebook/bloc/quotes_bloc.dart';
 import 'package:animebook/models/anime_quote_model.dart';
+import 'package:animebook/screens/anime_list/anime_list.dart';
 import 'package:animebook/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ class _QuotesListState extends State<QuotesList> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Container(
       child: BlocBuilder<QuotesBloc, QuotesState>(
         builder: (cotext, state) {
           switch (state.quoteStatus) {
@@ -38,17 +39,30 @@ class _QuotesListState extends State<QuotesList> {
               if (state.animeQuotes.isEmpty) {
                 return const Center(child: Text('no Quotes'));
               }
-              return ListView.builder(
-                controller: _scrollController,
-                itemCount: state.hasReachedMax
-                    ? state.animeQuotes.length
-                    : state.animeQuotes.length + 1,
-                itemBuilder: (context, index) {
-                  return index >= state.animeQuotes.length
-                      ? BottomLoader()
-                      : QuoteCard(animeQuote: state.animeQuotes[index]);
-                },
-              );
+              return Column(children: [
+                Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: state.hasReachedMax
+                        ? state.animeQuotes.length
+                        : state.animeQuotes.length + 1,
+                    itemBuilder: (context, index) {
+                      return index >= state.animeQuotes.length
+                          ? BottomLoader()
+                          : QuoteCard(animeQuote: state.animeQuotes[index]);
+                    },
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                            builder: (context) => AnimeList()))
+                        .whenComplete(() => quotesBloc.add(LoadQuotes()));
+                  },
+                  child: Text("Anime List"),
+                ),
+              ]);
             default:
               return const Center(child: CircularProgressIndicator());
           }
