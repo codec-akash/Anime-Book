@@ -16,6 +16,7 @@ class QuotesList extends StatefulWidget {
 class _QuotesListState extends State<QuotesList> {
   final ScrollController _scrollController = ScrollController();
   QuotesBloc quotesBloc = QuotesBloc();
+  QuoteStatus quoteStatus = QuoteStatus.initial;
 
   @override
   void initState() {
@@ -28,17 +29,23 @@ class _QuotesListState extends State<QuotesList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: BlocBuilder<QuotesBloc, QuotesState>(
-        builder: (cotext, state) {
-          switch (state.quoteStatus) {
-            case QuoteStatus.failure:
+      child: BlocListener<QuotesBloc, QuotesState>(
+        listener: (context, state) {
+          setState(() {
+            quoteStatus = state.quoteStatus;
+          });
+        },
+        child: BlocBuilder<QuotesBloc, QuotesState>(
+          builder: (cotext, state) {
+            if (quoteStatus == QuoteStatus.initial) {
+              return CircularProgressIndicator();
+            }
+            if (quoteStatus == QuoteStatus.failure) {
               return Center(
                 child: Text("Failed to Load DAta"),
               );
-            case QuoteStatus.success:
-              if (state.animeQuotes.isEmpty) {
-                return const Center(child: Text('no Quotes'));
-              }
+            }
+            if (quoteStatus == QuoteStatus.success) {
               return Column(children: [
                 Expanded(
                   child: ListView.builder(
@@ -55,18 +62,16 @@ class _QuotesListState extends State<QuotesList> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                            builder: (context) => AnimeList()))
-                        .whenComplete(() => quotesBloc.add(LoadQuotes()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => AnimeList()));
                   },
                   child: Text("Anime List"),
                 ),
               ]);
-            default:
-              return const Center(child: CircularProgressIndicator());
-          }
-        },
+            }
+            return Text("Loading");
+          },
+        ),
       ),
     );
   }

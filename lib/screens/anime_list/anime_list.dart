@@ -26,8 +26,6 @@ class _AnimeListState extends State<AnimeList> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    _quotesBloc = context.read<QuotesBloc>();
     _quotesBloc.add(LoadAnimeList());
     super.initState();
   }
