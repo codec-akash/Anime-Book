@@ -8,3 +8,10 @@ abstract class QuotesEvent extends Equatable {
 }
 
 class LoadQuotes extends QuotesEvent {}
+
+class LoadAnimeList extends QuotesEvent {}
+
+class LoadAnimeQuotes extends QuotesEvent {
+  final String animeName;
+  LoadAnimeQuotes({required this.animeName});
+}

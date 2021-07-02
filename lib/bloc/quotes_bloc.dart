@@ -23,8 +23,31 @@ class QuotesBloc extends Bloc<QuotesEvent, QuotesState> {
 
   @override
   Stream<QuotesState> mapEventToState(QuotesEvent event) async* {
+    print("Event is  $event");
     if (event is LoadQuotes) {
       yield await _mapPostFetchedToState(state);
+    } else if (event is LoadAnimeList) {
+      yield QuotesLoading();
+      try {
+        print("Reacehd");
+        List<String> animeList = await quotesApi.getAnimeList();
+
+        print("animeList");
+        yield AnimeListLoaded(animeList: animeList);
+      } catch (e) {
+        print("object -- $e");
+        yield QuotesEventFailed();
+      }
+      // yield QuotesEventFailed();
+    } else if (event is LoadAnimeQuotes) {
+      yield QuotesLoading();
+      try {
+        List<AnimeQuotes> animeQuotes =
+            await quotesApi.getSpecificAnimeQuotes(event.animeName);
+        yield QuotesLoaded(animeQuotesList: animeQuotes);
+      } catch (e) {
+        QuotesEventFailed(errorMessage: "Failed to load this anime quotes");
+      }
     }
   }
 

@@ -37,19 +37,18 @@ class QuotesUninitialized extends QuotesState {}
 
 class QuotesLoading extends QuotesState {}
 
-// class QuotesLoaded extends QuotesState {
-//   final List<AnimeQuotes> animeQuotes;
-
-//   List<AnimeQuotes> get getAnimeQuotes => animeQuotes;
-
-//   QuotesLoaded(this.animeQuotes);
-
-//   @override
-//   List<Object> get props => [animeQuotes];
-// }
+class AnimeListLoaded extends QuotesState {
+  final List<String> animeList;
+  AnimeListLoaded({required this.animeList});
+}
 
 class QuotesEventFailed extends QuotesState {
   final String? errorMessage;
 
   QuotesEventFailed({this.errorMessage});
+}
+
+class QuotesLoaded extends QuotesState {
+  final List<AnimeQuotes> animeQuotesList;
+  QuotesLoaded({required this.animeQuotesList});
 }

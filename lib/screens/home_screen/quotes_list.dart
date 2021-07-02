@@ -20,6 +20,7 @@ class _QuotesListState extends State<QuotesList> {
   void initState() {
     super.initState();
     quotesBloc = context.read<QuotesBloc>();
+    quotesBloc.add(LoadQuotes());
     _scrollController.addListener(_onScroll);
   }
 
@@ -59,6 +60,7 @@ class _QuotesListState extends State<QuotesList> {
   @override
   void dispose() {
     _scrollController.dispose();
+    quotesBloc.close();
     super.dispose();
   }
 

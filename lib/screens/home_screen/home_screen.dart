@@ -1,5 +1,6 @@
 import 'package:animebook/bloc/quotes_bloc.dart';
 import 'package:animebook/models/anime_quote_model.dart';
+import 'package:animebook/screens/anime_list/anime_list.dart';
 import 'package:animebook/screens/home_screen/quotes_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,13 +21,17 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         title: Text("Anime Quotes"),
       ),
-      body: BlocProvider<QuotesBloc>(
-        create: (context) => QuotesBloc()..add(LoadQuotes()),
-        child: Column(
-          children: [
-            QuotesList(),
-          ],
-        ),
+      body: Column(
+        children: [
+          QuotesList(),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => AnimeList()));
+            },
+            child: Text("Anime List"),
+          ),
+        ],
       ),
     );
   }

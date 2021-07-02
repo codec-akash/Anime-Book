@@ -12,15 +12,28 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.dark,
-        backgroundColor: Color(0xff202531),
-        accentColor: Color(0xff2F353A),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<QuotesBloc>(
+          create: (context) => QuotesBloc(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          brightness: Brightness.dark,
+          backgroundColor: Color(0xff202531),
+          accentColor: Color(0xff2F353A),
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+        home: HomeScreen(),
       ),
-      home: HomeScreen(),
     );
   }
 }
