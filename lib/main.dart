@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Anime Quotes',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           brightness: Brightness.dark,
