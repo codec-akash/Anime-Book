@@ -38,7 +38,7 @@ class _QuotesListState extends State<QuotesList> {
         child: BlocBuilder<QuotesBloc, QuotesState>(
           builder: (cotext, state) {
             if (quoteStatus == QuoteStatus.initial) {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
             if (quoteStatus == QuoteStatus.failure) {
               return Center(
