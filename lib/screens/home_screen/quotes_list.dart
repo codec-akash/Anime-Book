@@ -1,6 +1,7 @@
 import 'package:animebook/bloc/quotes_bloc.dart';
 import 'package:animebook/models/anime_quote_model.dart';
 import 'package:animebook/screens/anime_list/anime_list.dart';
+import 'package:animebook/screens/home_screen/quotes_option.dart';
 import 'package:animebook/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +57,10 @@ class _QuotesListState extends State<QuotesList> {
                     itemBuilder: (context, index) {
                       return index >= state.animeQuotes.length
                           ? BottomLoader()
-                          : QuoteCard(animeQuote: state.animeQuotes[index]);
+                          : QuoteCard(
+                              animeQuote: state.animeQuotes[index],
+                              isCLickable: true,
+                            );
                     },
                   ),
                 ),
@@ -97,44 +101,60 @@ class _QuotesListState extends State<QuotesList> {
 
 class QuoteCard extends StatelessWidget {
   final AnimeQuotes? animeQuote;
-  const QuoteCard({Key? key, this.animeQuote}) : super(key: key);
+  final bool? isCLickable;
+  const QuoteCard({Key? key, this.animeQuote, this.isCLickable})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).accentColor,
-        borderRadius: Global.borderRadius,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(animeQuote?.quote ?? ""),
-          SizedBox(height: 10.0),
-          Row(
-            children: [
-              Spacer(),
-              Container(
-                width: 220,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text("~ ${animeQuote?.character}"),
-                    Text(
-                      "${animeQuote?.anime}",
-                      textAlign: TextAlign.right,
-                      softWrap: true,
-                      maxLines: 2,
-                    )
-                  ],
-                ),
+    return GestureDetector(
+      onTap: () {
+        if (isCLickable ?? false) {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => QuotesOptions(
+              quotesCard: QuoteCard(
+                animeQuote: animeQuote,
+                isCLickable: false,
               ),
-            ],
-          ),
-        ],
+            ),
+          ));
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).accentColor,
+          borderRadius: Global.borderRadius,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(animeQuote?.quote ?? ""),
+            SizedBox(height: 10.0),
+            Row(
+              children: [
+                Spacer(),
+                Container(
+                  width: 220,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SelectableText("~ ${animeQuote?.character}"),
+                      Text(
+                        "${animeQuote?.anime}",
+                        textAlign: TextAlign.right,
+                        softWrap: true,
+                        maxLines: 2,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
