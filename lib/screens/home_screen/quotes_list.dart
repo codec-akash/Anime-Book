@@ -42,7 +42,7 @@ class _QuotesListState extends State<QuotesList> {
             }
             if (quoteStatus == QuoteStatus.failure) {
               return Center(
-                child: Text("Failed to Load DAta"),
+                child: Text("Failed to Load Data"),
               );
             }
             if (quoteStatus == QuoteStatus.success) {
@@ -69,7 +69,7 @@ class _QuotesListState extends State<QuotesList> {
                 ),
               ]);
             }
-            return Text("Loading");
+            return Text(Global.defaultText);
           },
         ),
       ),

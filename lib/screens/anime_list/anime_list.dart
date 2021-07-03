@@ -94,7 +94,7 @@ class _AnimeListState extends State<AnimeList> {
               );
             }
             return Center(
-              child: Text("Nice Text"),
+              child: Text(Global.defaultText),
             );
           },
         ),

@@ -1,5 +1,6 @@
 import 'package:animebook/bloc/quotes_bloc.dart';
 import 'package:animebook/screens/home_screen/quotes_list.dart';
+import 'package:animebook/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +30,7 @@ class AnimeQuoteList extends StatelessWidget {
               );
             }
             return Center(
-              child: Text("Nice Text"),
+              child: Text(Global.defaultText),
             );
           },
         ),

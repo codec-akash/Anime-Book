@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 class Global {
   static BorderRadius borderRadius = BorderRadius.circular(10.0);
 
+  static const String defaultText =
+      "Awww Man, Your Internet Sucks \n Creator of this app \n Real life anime";
+
   static const shimmerGradient = LinearGradient(
     colors: [
       Color(0xFFEBEBF4),

@@ -23,13 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Container(
         child: QuotesList(),
-        // ElevatedButton(
-        //   onPressed: () {
-        //     Navigator.of(context)
-        //         .push(MaterialPageRoute(builder: (context) => AnimeList()));
-        //   },
-        //   child: Text("Anime List"),
-        // ),
       ),
     );
   }
