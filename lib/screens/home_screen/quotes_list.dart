@@ -64,13 +64,19 @@ class _QuotesListState extends State<QuotesList> {
                     },
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => AnimeList()));
-                  },
-                  child: Text("Anime List"),
+                SizedBox(height: 20.0),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => AnimeList()));
+                    },
+                    child: Text("Anime List"),
+                  ),
                 ),
+                SizedBox(height: 10.0),
               ]);
             }
             return Text(Global.defaultText);

@@ -23,11 +23,17 @@ class _QuotesOptionsState extends State<QuotesOptions> {
             SizedBox(height: 40.0),
             widget.quotesCard,
             SizedBox(height: 20.0),
-            ElevatedButton(
-              child: Text("Share this on Whatsapp"),
-              onPressed: () {
-                Share.share("Share this quote with : ");
-              },
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              width: double.infinity,
+              child: ElevatedButton(
+                child: Container(
+                  child: Text("Share this on Whatsapp"),
+                ),
+                onPressed: () {
+                  Share.share("Share this quote with : ");
+                },
+              ),
             ),
           ],
         ),
