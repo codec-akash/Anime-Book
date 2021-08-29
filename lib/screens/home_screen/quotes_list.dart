@@ -106,22 +106,22 @@ class _QuotesListState extends State<QuotesList> {
 }
 
 class QuoteCard extends StatelessWidget {
-  final AnimeQuotes? animeQuote;
-  final bool? isCLickable;
-  const QuoteCard({Key? key, this.animeQuote, this.isCLickable})
-      : super(key: key);
+  final AnimeQuotes animeQuote;
+  final bool isCLickable;
+  const QuoteCard({
+    Key? key,
+    required this.animeQuote,
+    this.isCLickable = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (isCLickable ?? false) {
+        if (isCLickable) {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => QuotesOptions(
-              quotesCard: QuoteCard(
-                animeQuote: animeQuote,
-                isCLickable: false,
-              ),
+              animeQuotes: animeQuote,
             ),
           ));
         }
@@ -137,7 +137,7 @@ class QuoteCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(animeQuote?.quote ?? ""),
+            Text(animeQuote.quote ?? ""),
             SizedBox(height: 10.0),
             Row(
               children: [
@@ -147,9 +147,9 @@ class QuoteCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SelectableText("~ ${animeQuote?.character}"),
+                      SelectableText("~ ${animeQuote.character}"),
                       Text(
-                        "${animeQuote?.anime}",
+                        "${animeQuote.anime}",
                         textAlign: TextAlign.right,
                         softWrap: true,
                         maxLines: 2,

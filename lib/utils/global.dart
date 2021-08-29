@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class Global {
   static BorderRadius borderRadius = BorderRadius.circular(10.0);
+  static BorderRadius borderRadius20 = BorderRadius.circular(20.0);
 
   static const String defaultText =
       "Awww Man, Your Internet Sucks \n \t\t\t\t\t\t\t\t ~Creator of this app \n \t\t\t\t\t\t\t\t Real life anime";
