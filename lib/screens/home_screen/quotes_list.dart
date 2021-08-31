@@ -137,7 +137,7 @@ class QuoteCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(animeQuote.quote ?? ""),
+            Text(animeQuote.quote),
             SizedBox(height: 10.0),
             Row(
               children: [

@@ -1,3 +1,4 @@
+import 'package:animebook/models/anime_quote_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -31,5 +32,15 @@ class Global {
     } else {
       throw "Not able to send sms";
     }
+  }
+
+  static String sendQuotes(AnimeQuotes animeQuotes) {
+    String msg = '';
+    msg = animeQuotes.quote +
+        "  - character" +
+        animeQuotes.character +
+        " From Anime -" +
+        animeQuotes.character;
+    return msg;
   }
 }

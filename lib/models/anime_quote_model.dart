@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class AnimeQuotes extends Equatable {
-  String? anime;
-  String? character;
-  String? quote;
+  late String anime;
+  late String character;
+  late String quote;
 
-  AnimeQuotes({this.anime, this.character, this.quote});
+  AnimeQuotes(
+      {required this.anime, required this.character, required this.quote});
 
   AnimeQuotes.fromJson(Map<String, dynamic> json) {
     anime = json['anime'];
